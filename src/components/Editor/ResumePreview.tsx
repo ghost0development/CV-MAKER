@@ -46,15 +46,14 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
 
   if (!hasContent) {
     return (
-      <div className="flex items-center justify-center h-full text-gray-400 text-sm font-sans" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+      <div className="p-8 text-gray-400 text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
         Start filling in your details to see the preview
       </div>
     );
   }
 
   return (
-    <div className="h-full flex flex-col" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9.5px' }}>
-      {/* Premium header block */}
+    <div style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9.5px' }}>
       <div className="px-8 pt-7 pb-5 text-white" style={{ backgroundColor: ac }}>
         <h1 className="text-[22px] font-extrabold tracking-tight leading-tight">{p.fullName || 'Your Name'}</h1>
         <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-white/80" style={{ fontSize: '8px' }}>
@@ -65,22 +64,17 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
         </div>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 px-8 pt-4 pb-7 space-y-3.5">
-        {/* Summary */}
-        {p.summary && (
-          <p className="text-gray-600 leading-relaxed">{p.summary}</p>
-        )}
+      <div className="px-8 pt-4 pb-7 space-y-3.5">
+        {p.summary && <p className="text-gray-600 leading-relaxed">{p.summary}</p>}
 
-        {/* Experience */}
         {experience.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <div className="w-0.5 h-3 rounded-full shrink-0" style={{ backgroundColor: ac }} />
               <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Experience</h2>
             </div>
             <div className="space-y-2.5">
-              {experience.map((exp, i) => (
+              {experience.map((exp) => (
                 <div key={exp.id}>
                   <div className="flex justify-between items-baseline">
                     <div>
@@ -98,11 +92,10 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
           </div>
         )}
 
-        {/* Education */}
         {education.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <div className="w-0.5 h-3 rounded-full shrink-0" style={{ backgroundColor: ac }} />
               <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Education</h2>
             </div>
             <div className="space-y-2">
@@ -122,11 +115,10 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
           </div>
         )}
 
-        {/* Skills */}
         {skills.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <div className="w-0.5 h-3 rounded-full shrink-0" style={{ backgroundColor: ac }} />
               <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Skills</h2>
             </div>
             <div className="flex flex-wrap gap-x-3 gap-y-1">
@@ -140,28 +132,24 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
           </div>
         )}
 
-        {/* Languages */}
         {languages.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <div className="w-0.5 h-3 rounded-full shrink-0" style={{ backgroundColor: ac }} />
               <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Languages</h2>
             </div>
             <div className="flex flex-wrap gap-x-4 gap-y-0.5">
               {languages.map((l) => (
-                <span key={l.id} className="text-gray-700">
-                  {l.name} <span className="text-gray-400">— {l.level}</span>
-                </span>
+                <span key={l.id} className="text-gray-700">{l.name} <span className="text-gray-400">— {l.level}</span></span>
               ))}
             </div>
           </div>
         )}
 
-        {/* Projects */}
         {projects.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <div className="w-0.5 h-3 rounded-full shrink-0" style={{ backgroundColor: ac }} />
               <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Projects</h2>
             </div>
             <div className="space-y-1.5">
@@ -176,11 +164,10 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
           </div>
         )}
 
-        {/* Certifications */}
         {certifications.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <div className="w-0.5 h-3 rounded-full shrink-0" style={{ backgroundColor: ac }} />
               <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Certifications</h2>
             </div>
             <div className="space-y-1">
@@ -209,15 +196,14 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
 
   if (!hasContent) {
     return (
-      <div className="flex items-center justify-center h-full text-gray-400 text-sm" style={{ fontFamily: 'Georgia, serif' }}>
+      <div className="p-8 text-gray-400 text-sm" style={{ fontFamily: 'Georgia, serif' }}>
         Start filling in your details to see the preview
       </div>
     );
   }
 
   return (
-    <div className="h-full flex flex-col" style={{ fontFamily: 'Georgia, serif', fontSize: '9.5px', color: '#1a1a1a' }}>
-      {/* Elegant header with decorative border */}
+    <div style={{ fontFamily: 'Georgia, serif', fontSize: '9.5px', color: '#1a1a1a' }}>
       <div className="text-center pt-7 pb-4 px-8" style={{ borderBottom: `3px solid ${ac}` }}>
         <h1 className="text-[26px] font-bold tracking-wide leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif", color: ac }}>{p.fullName || 'Your Name'}</h1>
         <div className="w-8 h-px mx-auto my-2" style={{ backgroundColor: ac }} />
@@ -232,8 +218,7 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
         </div>
       </div>
 
-      <div className="flex-1 px-8 pt-4 pb-7 space-y-4">
-        {/* Summary */}
+      <div className="px-8 pt-4 pb-7 space-y-4">
         {p.summary && (
           <div>
             <h2 className="text-[8.5px] font-bold uppercase tracking-widest mb-1" style={{ color: '#4a4a4a' }}>Professional Summary</h2>
@@ -241,7 +226,6 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
           </div>
         )}
 
-        {/* Experience */}
         {experience.length > 0 && (
           <div>
             <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-2" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Professional Experience</h2>
@@ -264,7 +248,6 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
           </div>
         )}
 
-        {/* Education */}
         {education.length > 0 && (
           <div>
             <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-2" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Education</h2>
@@ -285,7 +268,6 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
           </div>
         )}
 
-        {/* Skills */}
         {skills.length > 0 && (
           <div>
             <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-1.5" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Skills</h2>
@@ -300,17 +282,13 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
           </div>
         )}
 
-        {/* Languages */}
         {languages.length > 0 && (
           <div>
             <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-1.5" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Languages</h2>
-            <p className="text-gray-700">
-              {languages.map((l) => `${l.name} (${l.level})`).join('  ·  ')}
-            </p>
+            <p className="text-gray-700">{languages.map((l) => `${l.name} (${l.level})`).join('  ·  ')}</p>
           </div>
         )}
 
-        {/* Projects */}
         {projects.length > 0 && (
           <div>
             <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-1.5" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Projects</h2>
@@ -326,7 +304,6 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
           </div>
         )}
 
-        {/* Certifications */}
         {certifications.length > 0 && (
           <div>
             <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-1.5" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Certifications</h2>
@@ -354,15 +331,14 @@ function ExecutiveTemplate({ resume, accentColor }: Props & { accentColor: strin
 
   if (!hasContent) {
     return (
-      <div className="flex items-center justify-center h-full text-gray-400 text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+      <div className="p-8 text-gray-400 text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
         Start filling in your details to see the preview
       </div>
     );
   }
 
   return (
-    <div className="flex h-full" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9px' }}>
-      {/* Sidebar */}
+    <div className="flex" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9px' }}>
       <div className="w-[34%] bg-gray-900 text-white flex flex-col">
         <div className="px-6 pt-6 pb-4" style={{ backgroundColor: ac }}>
           <h1 className="text-base font-bold leading-tight text-white">{p.fullName || 'Your Name'}</h1>
@@ -373,57 +349,56 @@ function ExecutiveTemplate({ resume, accentColor }: Props & { accentColor: strin
             {p.website && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>{p.website}</div>}
           </div>
         </div>
-        <div className="px-6 pb-6 flex flex-col gap-5 flex-1">
-        {skills.length > 0 && (
-          <div>
-            <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Skills</h2>
-            <div className="space-y-1.5">
-              {skills.map((s) => (
-                <div key={s.id}>
-                  <div className="flex justify-between text-gray-300" style={{ fontSize: '8px' }}>
-                    <span>{s.name}</span>
+        <div className="px-6 pb-6 flex flex-col gap-5 pt-4">
+          {skills.length > 0 && (
+            <div>
+              <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Skills</h2>
+              <div className="space-y-1.5">
+                {skills.map((s) => (
+                  <div key={s.id}>
+                    <div className="flex justify-between text-gray-300" style={{ fontSize: '8px' }}>
+                      <span>{s.name}</span>
+                    </div>
+                    <div className="w-full h-1 bg-gray-700 rounded-full mt-0.5">
+                      <div className="h-full rounded-full" style={{ width: `${s.level * 20}%`, backgroundColor: ac }} />
+                    </div>
                   </div>
-                  <div className="w-full h-1 bg-gray-700 rounded-full mt-0.5">
-                    <div className="h-full rounded-full" style={{ width: `${s.level * 20}%`, backgroundColor: ac }} />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {languages.length > 0 && (
+            <div>
+              <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Languages</h2>
+              <div className="space-y-1">
+                {languages.map((l) => (
+                  <div key={l.id} className="flex justify-between text-gray-300" style={{ fontSize: '8px' }}>
+                    <span>{l.name}</span>
+                    <span className="text-gray-500">{l.level}</span>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {languages.length > 0 && (
-          <div>
-            <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Languages</h2>
-            <div className="space-y-1">
-              {languages.map((l) => (
-                <div key={l.id} className="flex justify-between text-gray-300" style={{ fontSize: '8px' }}>
-                  <span>{l.name}</span>
-                  <span className="text-gray-500">{l.level}</span>
-                </div>
-              ))}
+          {certifications.length > 0 && (
+            <div>
+              <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Certifications</h2>
+              <div className="space-y-1.5">
+                {certifications.map((c) => (
+                  <div key={c.id}>
+                    <div className="text-gray-200 font-medium" style={{ fontSize: '8.5px' }}>{c.name}</div>
+                    <div className="text-gray-500" style={{ fontSize: '7.5px' }}>{c.issuer}{c.date && ` • ${formatDate(c.date)}`}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-
-        {certifications.length > 0 && (
-          <div>
-            <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Certifications</h2>
-            <div className="space-y-1.5">
-              {certifications.map((c) => (
-                <div key={c.id}>
-                  <div className="text-gray-200 font-medium" style={{ fontSize: '8.5px' }}>{c.name}</div>
-                  <div className="text-gray-500" style={{ fontSize: '7.5px' }}>{c.issuer}{c.date && ` • ${formatDate(c.date)}`}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
 
-      {/* Main */}
-      <div className="flex-1 p-6 flex flex-col gap-4">
+      <div className="flex-1 p-6 space-y-4">
         {p.summary && (
           <div>
             <h2 className="text-[8px] font-bold text-gray-900 uppercase tracking-[0.15em] mb-1">Profile</h2>
@@ -498,15 +473,14 @@ function MinimalTemplate({ resume, accentColor }: Props & { accentColor: string 
 
   if (!hasContent) {
     return (
-      <div className="flex items-center justify-center h-full text-gray-400 text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
+      <div className="p-8 text-gray-400 text-sm" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
         Start filling in your details to see the preview
       </div>
     );
   }
 
   return (
-    <div className="p-10 leading-relaxed h-full flex flex-col" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9px' }}>
-      {/* Header */}
+    <div className="p-10" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9px' }}>
       <div className="pb-5 border-b border-gray-100">
         <h1 className="text-[28px] font-extralight text-gray-900 tracking-tight leading-tight">{p.fullName || 'Your Name'}</h1>
         <div className="w-10 h-[2px] mt-2.5 mb-2.5" style={{ backgroundColor: ac }} />
@@ -521,13 +495,9 @@ function MinimalTemplate({ resume, accentColor }: Props & { accentColor: string 
         </div>
       </div>
 
-      <div className="flex-1 space-y-4 mt-4">
-        {/* Summary */}
-        {p.summary && (
-          <p className="text-gray-500 leading-relaxed">{p.summary}</p>
-        )}
+      <div className="space-y-4 mt-4">
+        {p.summary && <p className="text-gray-500 leading-relaxed">{p.summary}</p>}
 
-        {/* Experience */}
         {experience.length > 0 && (
           <div>
             <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Experience</h2>
@@ -543,7 +513,6 @@ function MinimalTemplate({ resume, accentColor }: Props & { accentColor: string 
           </div>
         )}
 
-        {/* Education */}
         {education.length > 0 && (
           <div>
             <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Education</h2>
@@ -559,7 +528,6 @@ function MinimalTemplate({ resume, accentColor }: Props & { accentColor: string 
           </div>
         )}
 
-        {/* Skills */}
         {skills.length > 0 && (
           <div>
             <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Skills</h2>
@@ -574,7 +542,6 @@ function MinimalTemplate({ resume, accentColor }: Props & { accentColor: string 
           </div>
         )}
 
-        {/* Languages */}
         {languages.length > 0 && (
           <div>
             <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Languages</h2>
@@ -588,7 +555,6 @@ function MinimalTemplate({ resume, accentColor }: Props & { accentColor: string 
           </div>
         )}
 
-        {/* Projects */}
         {projects.length > 0 && (
           <div>
             <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Projects</h2>
