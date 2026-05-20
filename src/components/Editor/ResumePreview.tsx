@@ -11,28 +11,27 @@ function formatDate(date: string) {
   return `${months[parseInt(m) - 1]} ${y}`;
 }
 
-function SkillDots({ level }: { level: number }) {
+function SkillDots({ level, color }: { level: number; color: string }) {
   return (
     <span className="inline-flex gap-0.5 ml-1.5 align-middle">
       {[1, 2, 3, 4, 5].map((dot) => (
         <span
           key={dot}
-          className={`inline-block w-1.5 h-1.5 rounded-full ${
-            dot <= level ? 'bg-emerald-500' : 'bg-gray-200'
-          }`}
+          className="inline-block w-1.5 h-1.5 rounded-full"
+          style={{ backgroundColor: dot <= level ? color : '#e5e7eb' }}
         />
       ))}
     </span>
   );
 }
 
-function SkillBars({ level }: { level: number }) {
+function SkillBars({ level, color }: { level: number; color: string }) {
   return (
     <div className="inline-flex items-center gap-0.5 ml-2 align-middle w-16">
       <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
         <div
-          className="h-full bg-emerald-500 rounded-full transition-all"
-          style={{ width: `${level * 20}%` }}
+          className="h-full rounded-full transition-all"
+          style={{ width: `${level * 20}%`, backgroundColor: color }}
         />
       </div>
     </div>
@@ -40,8 +39,9 @@ function SkillBars({ level }: { level: number }) {
 }
 
 /* ─── Modern Template (Free) ─── */
-function ModernTemplate({ resume }: Props) {
+function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }) {
   const { personal_info: p, experience, education, skills, languages, projects, certifications } = resume;
+  const ac = accentColor;
   const hasContent = p.fullName || p.email || experience.length || education.length;
 
   if (!hasContent) {
@@ -56,14 +56,14 @@ function ModernTemplate({ resume }: Props) {
     <div className="p-8 leading-relaxed h-full flex flex-col" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9.5px' }}>
       {/* Header with accent bar */}
       <div className="flex gap-5 pb-4 border-b border-gray-100">
-        <div className="w-1 bg-emerald-500 rounded-full shrink-0" />
+        <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: ac }} />
         <div className="flex-1 min-w-0">
           <h1 className="text-[22px] font-bold text-gray-900 tracking-tight leading-tight">{p.fullName || 'Your Name'}</h1>
           <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5 text-gray-500 text-[8.5px]">
-            {p.email && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>{p.email}</span>}
-            {p.phone && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>{p.phone}</span>}
-            {p.location && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{p.location}</span>}
-            {p.website && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>{p.website}</span>}
+            {p.email && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>{p.email}</span>}
+            {p.phone && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>{p.phone}</span>}
+            {p.location && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{p.location}</span>}
+            {p.website && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>{p.website}</span>}
           </div>
         </div>
       </div>
@@ -79,7 +79,7 @@ function ModernTemplate({ resume }: Props) {
         {/* Experience */}
         {experience.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold text-emerald-600 uppercase tracking-[0.15em] mb-1.5">Experience</h2>
+            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Experience</h2>
             <div className="space-y-2.5">
               {experience.map((exp) => (
                 <div key={exp.id}>
@@ -102,7 +102,7 @@ function ModernTemplate({ resume }: Props) {
         {/* Education */}
         {education.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold text-emerald-600 uppercase tracking-[0.15em] mb-1.5">Education</h2>
+            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Education</h2>
             <div className="space-y-2">
               {education.map((edu) => (
                 <div key={edu.id}>
@@ -123,12 +123,12 @@ function ModernTemplate({ resume }: Props) {
         {/* Skills */}
         {skills.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold text-emerald-600 uppercase tracking-[0.15em] mb-1.5">Skills</h2>
+            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Skills</h2>
             <div className="flex flex-wrap gap-x-3 gap-y-1">
               {skills.map((s) => (
                 <span key={s.id} className="inline-flex items-center text-gray-700 font-medium">
                   {s.name}
-                  <SkillBars level={s.level} />
+                  <SkillBars level={s.level} color={ac} />
                 </span>
               ))}
             </div>
@@ -138,7 +138,7 @@ function ModernTemplate({ resume }: Props) {
         {/* Languages */}
         {languages.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold text-emerald-600 uppercase tracking-[0.15em] mb-1.5">Languages</h2>
+            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Languages</h2>
             <div className="flex flex-wrap gap-x-4 gap-y-0.5">
               {languages.map((l) => (
                 <span key={l.id} className="text-gray-700">
@@ -152,7 +152,7 @@ function ModernTemplate({ resume }: Props) {
         {/* Projects */}
         {projects.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold text-emerald-600 uppercase tracking-[0.15em] mb-1.5">Projects</h2>
+            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Projects</h2>
             <div className="space-y-1.5">
               {projects.map((proj) => (
                 <div key={proj.id}>
@@ -168,7 +168,7 @@ function ModernTemplate({ resume }: Props) {
         {/* Certifications */}
         {certifications.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold text-emerald-600 uppercase tracking-[0.15em] mb-1.5">Certifications</h2>
+            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Certifications</h2>
             <div className="space-y-1">
               {certifications.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
@@ -188,8 +188,9 @@ function ModernTemplate({ resume }: Props) {
 }
 
 /* ─── Classic Template (Free) ─── */
-function ClassicTemplate({ resume }: Props) {
+function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string }) {
   const { personal_info: p, experience, education, skills, languages, projects, certifications } = resume;
+  const ac = accentColor;
   const hasContent = p.fullName || p.email || experience.length || education.length;
 
   if (!hasContent) {
@@ -277,7 +278,7 @@ function ClassicTemplate({ resume }: Props) {
               {skills.map((s) => (
                 <span key={s.id} className="inline-flex items-center text-gray-700">
                   {s.name}
-                  <SkillDots level={s.level} />
+                  <SkillDots level={s.level} color={ac} />
                 </span>
               ))}
             </div>
@@ -331,8 +332,9 @@ function ClassicTemplate({ resume }: Props) {
 }
 
 /* ─── Executive Template (Pro) ─── */
-function ExecutiveTemplate({ resume }: Props) {
+function ExecutiveTemplate({ resume, accentColor }: Props & { accentColor: string }) {
   const { personal_info: p, experience, education, skills, languages, projects, certifications } = resume;
+  const ac = accentColor;
   const hasContent = p.fullName || p.email || experience.length || education.length;
 
   if (!hasContent) {
@@ -350,16 +352,16 @@ function ExecutiveTemplate({ resume }: Props) {
         <div>
           <h1 className="text-base font-bold leading-tight">{p.fullName || 'Your Name'}</h1>
           <div className="mt-3 space-y-1 text-gray-300" style={{ fontSize: '8px' }}>
-            {p.email && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>{p.email}</div>}
-            {p.phone && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>{p.phone}</div>}
-            {p.location && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{p.location}</div>}
-            {p.website && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>{p.website}</div>}
+            {p.email && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>{p.email}</div>}
+            {p.phone && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>{p.phone}</div>}
+            {p.location && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{p.location}</div>}
+            {p.website && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>{p.website}</div>}
           </div>
         </div>
 
         {skills.length > 0 && (
           <div>
-            <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] text-emerald-400 mb-2">Skills</h2>
+            <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Skills</h2>
             <div className="space-y-1.5">
               {skills.map((s) => (
                 <div key={s.id}>
@@ -367,7 +369,7 @@ function ExecutiveTemplate({ resume }: Props) {
                     <span>{s.name}</span>
                   </div>
                   <div className="w-full h-1 bg-gray-700 rounded-full mt-0.5">
-                    <div className="h-full bg-emerald-400 rounded-full" style={{ width: `${s.level * 20}%` }} />
+                    <div className="h-full rounded-full" style={{ width: `${s.level * 20}%`, backgroundColor: ac }} />
                   </div>
                 </div>
               ))}
@@ -377,7 +379,7 @@ function ExecutiveTemplate({ resume }: Props) {
 
         {languages.length > 0 && (
           <div>
-            <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] text-emerald-400 mb-2">Languages</h2>
+            <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Languages</h2>
             <div className="space-y-1">
               {languages.map((l) => (
                 <div key={l.id} className="flex justify-between text-gray-300" style={{ fontSize: '8px' }}>
@@ -391,7 +393,7 @@ function ExecutiveTemplate({ resume }: Props) {
 
         {certifications.length > 0 && (
           <div>
-            <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] text-emerald-400 mb-2">Certifications</h2>
+            <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Certifications</h2>
             <div className="space-y-1.5">
               {certifications.map((c) => (
                 <div key={c.id}>
@@ -425,7 +427,7 @@ function ExecutiveTemplate({ resume }: Props) {
                       {formatDate(exp.startDate)} – {exp.current ? 'Present' : formatDate(exp.endDate)}
                     </span>
                   </div>
-                  <div className="text-emerald-600 font-medium" style={{ fontSize: '8.5px' }}>{exp.company}</div>
+                  <div className="font-medium" style={{ fontSize: '8.5px', color: ac }}>{exp.company}</div>
                   {exp.description && <p className="text-gray-600 mt-0.5 whitespace-pre-line leading-relaxed">{exp.description}</p>}
                 </div>
               ))}
@@ -473,8 +475,9 @@ function ExecutiveTemplate({ resume }: Props) {
 }
 
 /* ─── Minimal Template (Pro) ─── */
-function MinimalTemplate({ resume }: Props) {
+function MinimalTemplate({ resume, accentColor }: Props & { accentColor: string }) {
   const { personal_info: p, experience, education, skills, languages, projects } = resume;
+  const ac = accentColor;
   const hasContent = p.fullName || p.email || experience.length || education.length;
 
   if (!hasContent) {
@@ -490,7 +493,7 @@ function MinimalTemplate({ resume }: Props) {
       {/* Header */}
       <div className="pb-5 border-b border-gray-100">
         <h1 className="text-[28px] font-extralight text-gray-900 tracking-tight leading-tight">{p.fullName || 'Your Name'}</h1>
-        <div className="w-10 h-[2px] bg-emerald-400 mt-2.5 mb-2.5" />
+        <div className="w-10 h-[2px] mt-2.5 mb-2.5" style={{ backgroundColor: ac }} />
         <div className="flex flex-wrap gap-x-2.5 gap-y-0.5 text-gray-400" style={{ fontSize: '7.5px' }}>
           {p.email && <span>{p.email}</span>}
           {p.phone && <span className="text-gray-200">/</span>}
@@ -511,7 +514,7 @@ function MinimalTemplate({ resume }: Props) {
         {/* Experience */}
         {experience.length > 0 && (
           <div>
-            <h2 className="text-[7.5px] font-medium text-emerald-600 uppercase tracking-[0.2em] mb-2">Experience</h2>
+            <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Experience</h2>
             <div className="space-y-2.5">
               {experience.map((exp) => (
                 <div key={exp.id} className="pl-3 border-l border-gray-200">
@@ -527,7 +530,7 @@ function MinimalTemplate({ resume }: Props) {
         {/* Education */}
         {education.length > 0 && (
           <div>
-            <h2 className="text-[7.5px] font-medium text-emerald-600 uppercase tracking-[0.2em] mb-2">Education</h2>
+            <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Education</h2>
             <div className="space-y-2">
               {education.map((edu) => (
                 <div key={edu.id} className="pl-3 border-l border-gray-200">
@@ -543,12 +546,12 @@ function MinimalTemplate({ resume }: Props) {
         {/* Skills */}
         {skills.length > 0 && (
           <div>
-            <h2 className="text-[7.5px] font-medium text-emerald-600 uppercase tracking-[0.2em] mb-2">Skills</h2>
+            <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Skills</h2>
             <div className="flex flex-wrap gap-1.5">
               {skills.map((s) => (
                 <span key={s.id} className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-50 text-gray-600 rounded" style={{ fontSize: '8px' }}>
                   {s.name}
-                  <SkillDots level={s.level} />
+                  <SkillDots level={s.level} color={ac} />
                 </span>
               ))}
             </div>
@@ -558,7 +561,7 @@ function MinimalTemplate({ resume }: Props) {
         {/* Languages */}
         {languages.length > 0 && (
           <div>
-            <h2 className="text-[7.5px] font-medium text-emerald-600 uppercase tracking-[0.2em] mb-2">Languages</h2>
+            <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Languages</h2>
             <div className="flex flex-wrap gap-1.5">
               {languages.map((l) => (
                 <span key={l.id} className="px-2 py-0.5 bg-gray-50 text-gray-600 rounded" style={{ fontSize: '8px' }}>
@@ -572,7 +575,7 @@ function MinimalTemplate({ resume }: Props) {
         {/* Projects */}
         {projects.length > 0 && (
           <div>
-            <h2 className="text-[7.5px] font-medium text-emerald-600 uppercase tracking-[0.2em] mb-2">Projects</h2>
+            <h2 className="text-[7.5px] font-medium uppercase tracking-[0.2em] mb-2" style={{ color: ac }}>Projects</h2>
             <div className="space-y-1.5">
               {projects.map((proj) => (
                 <div key={proj.id} className="pl-3 border-l border-gray-200">
@@ -597,15 +600,16 @@ export const TEMPLATES = [
 
 export function ResumePreview({ resume }: Props) {
   const template = resume.template;
+  const accentColor = resume.accent_color || '#059669';
 
   switch (template) {
     case 'classic':
-      return <ClassicTemplate resume={resume} />;
+      return <ClassicTemplate resume={resume} accentColor={accentColor} />;
     case 'executive':
-      return <ExecutiveTemplate resume={resume} />;
+      return <ExecutiveTemplate resume={resume} accentColor={accentColor} />;
     case 'minimal':
-      return <MinimalTemplate resume={resume} />;
+      return <MinimalTemplate resume={resume} accentColor={accentColor} />;
     default:
-      return <ModernTemplate resume={resume} />;
+      return <ModernTemplate resume={resume} accentColor={accentColor} />;
   }
 }

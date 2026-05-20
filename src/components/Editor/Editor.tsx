@@ -12,6 +12,7 @@ import {
   Eye,
   PenLine,
   FileText,
+  Palette,
 } from 'lucide-react';
 import type { Resume } from '../../hooks/useResumes';
 import { useResumes } from '../../hooks/useResumes';
@@ -21,6 +22,7 @@ import { EducationSection } from './EducationSection';
 import { SkillsSection } from './SkillsSection';
 import { ProjectsSection, CertificationsSection } from './ProjectsSection';
 import { ResumePreview } from './ResumePreview';
+import { DesignSection } from './DesignSection';
 
 interface EditorProps {
   resume: Resume;
@@ -34,6 +36,7 @@ const TABS = [
   { id: 'skills', label: 'Skills', icon: Wrench },
   { id: 'projects', label: 'Projects', icon: FolderOpen },
   { id: 'certifications', label: 'Certifications', icon: Award },
+  { id: 'design', label: 'Design', icon: Palette },
 ] as const;
 
 type TabId = (typeof TABS)[number]['id'];
@@ -225,6 +228,7 @@ export function Editor({ resume: initialResume, onBack }: EditorProps) {
               {activeTab === 'skills' && <SkillsSection resume={resume} onChange={handleChange} />}
               {activeTab === 'projects' && <ProjectsSection resume={resume} onChange={handleChange} />}
               {activeTab === 'certifications' && <CertificationsSection resume={resume} onChange={handleChange} />}
+              {activeTab === 'design' && <DesignSection resume={resume} onChange={handleChange} />}
             </div>
           </div>
         )}

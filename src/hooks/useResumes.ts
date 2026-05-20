@@ -21,6 +21,7 @@ export interface Resume {
   languages: LanguageItem[];
   certifications: CertItem[];
   projects: ProjectItem[];
+  accent_color: string;
   is_pro: boolean;
   created_at: string;
   updated_at: string;
@@ -92,6 +93,7 @@ export function createEmptyResume(): Omit<Resume, 'id' | 'user_id' | 'created_at
     languages: [],
     certifications: [],
     projects: [],
+    accent_color: '#059669',
     is_pro: false,
   };
 }
