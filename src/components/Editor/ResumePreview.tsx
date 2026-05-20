@@ -53,35 +53,34 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
   }
 
   return (
-    <div className="p-8 leading-relaxed h-full flex flex-col" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9.5px' }}>
-      {/* Header with accent bar */}
-      <div className="flex gap-5 pb-4 border-b border-gray-100">
-        <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: ac }} />
-        <div className="flex-1 min-w-0">
-          <h1 className="text-[22px] font-bold text-gray-900 tracking-tight leading-tight">{p.fullName || 'Your Name'}</h1>
-          <div className="flex flex-wrap gap-x-3 gap-y-0.5 mt-1.5 text-gray-500 text-[8.5px]">
-            {p.email && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>{p.email}</span>}
-            {p.phone && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>{p.phone}</span>}
-            {p.location && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{p.location}</span>}
-            {p.website && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>{p.website}</span>}
-          </div>
+    <div className="h-full flex flex-col" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9.5px' }}>
+      {/* Premium header block */}
+      <div className="px-8 pt-7 pb-5 text-white" style={{ backgroundColor: ac }}>
+        <h1 className="text-[22px] font-extrabold tracking-tight leading-tight">{p.fullName || 'Your Name'}</h1>
+        <div className="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-white/80" style={{ fontSize: '8px' }}>
+          {p.email && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>{p.email}</span>}
+          {p.phone && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>{p.phone}</span>}
+          {p.location && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{p.location}</span>}
+          {p.website && <span className="flex items-center gap-1"><svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>{p.website}</span>}
         </div>
       </div>
 
-      <div className="flex-1 space-y-3.5 mt-4">
+      {/* Content */}
+      <div className="flex-1 px-8 pt-4 pb-7 space-y-3.5">
         {/* Summary */}
         {p.summary && (
-          <div>
-            <p className="text-gray-600 leading-relaxed">{p.summary}</p>
-          </div>
+          <p className="text-gray-600 leading-relaxed">{p.summary}</p>
         )}
 
         {/* Experience */}
         {experience.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Experience</h2>
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Experience</h2>
+            </div>
             <div className="space-y-2.5">
-              {experience.map((exp) => (
+              {experience.map((exp, i) => (
                 <div key={exp.id}>
                   <div className="flex justify-between items-baseline">
                     <div>
@@ -102,7 +101,10 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
         {/* Education */}
         {education.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Education</h2>
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Education</h2>
+            </div>
             <div className="space-y-2">
               {education.map((edu) => (
                 <div key={edu.id}>
@@ -123,7 +125,10 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
         {/* Skills */}
         {skills.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Skills</h2>
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Skills</h2>
+            </div>
             <div className="flex flex-wrap gap-x-3 gap-y-1">
               {skills.map((s) => (
                 <span key={s.id} className="inline-flex items-center text-gray-700 font-medium">
@@ -138,7 +143,10 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
         {/* Languages */}
         {languages.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Languages</h2>
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Languages</h2>
+            </div>
             <div className="flex flex-wrap gap-x-4 gap-y-0.5">
               {languages.map((l) => (
                 <span key={l.id} className="text-gray-700">
@@ -152,7 +160,10 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
         {/* Projects */}
         {projects.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Projects</h2>
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Projects</h2>
+            </div>
             <div className="space-y-1.5">
               {projects.map((proj) => (
                 <div key={proj.id}>
@@ -168,7 +179,10 @@ function ModernTemplate({ resume, accentColor }: Props & { accentColor: string }
         {/* Certifications */}
         {certifications.length > 0 && (
           <div>
-            <h2 className="text-[8px] font-bold uppercase tracking-[0.15em] mb-1.5" style={{ color: ac }}>Certifications</h2>
+            <div className="flex items-center gap-2 mb-1.5">
+              <div className="w-0.5 h-3 rounded-full" style={{ backgroundColor: ac }} />
+              <h2 className="text-[8px] font-bold uppercase tracking-[0.15em]" style={{ color: ac }}>Certifications</h2>
+            </div>
             <div className="space-y-1">
               {certifications.map((c) => (
                 <div key={c.id} className="flex justify-between items-baseline">
@@ -202,11 +216,12 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
   }
 
   return (
-    <div className="p-8 leading-relaxed h-full flex flex-col" style={{ fontFamily: 'Georgia, serif', fontSize: '9.5px', color: '#1a1a1a' }}>
-      {/* Header */}
-      <div className="text-center pb-4 mb-4" style={{ borderBottom: '2px solid #1a1a1a' }}>
-        <h1 className="text-[24px] font-bold tracking-wide leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>{p.fullName || 'Your Name'}</h1>
-        <div className="flex flex-wrap justify-center gap-x-2 gap-y-0.5 mt-2 text-gray-600" style={{ fontSize: '8.5px' }}>
+    <div className="h-full flex flex-col" style={{ fontFamily: 'Georgia, serif', fontSize: '9.5px', color: '#1a1a1a' }}>
+      {/* Elegant header with decorative border */}
+      <div className="text-center pt-7 pb-4 px-8" style={{ borderBottom: `3px solid ${ac}` }}>
+        <h1 className="text-[26px] font-bold tracking-wide leading-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif", color: ac }}>{p.fullName || 'Your Name'}</h1>
+        <div className="w-8 h-px mx-auto my-2" style={{ backgroundColor: ac }} />
+        <div className="flex flex-wrap justify-center gap-x-2 gap-y-0.5 text-gray-600" style={{ fontSize: '8.5px' }}>
           {p.email && <span>{p.email}</span>}
           {p.phone && <span className="text-gray-300">|</span>}
           {p.phone && <span>{p.phone}</span>}
@@ -217,19 +232,19 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
         </div>
       </div>
 
-      <div className="flex-1 space-y-4">
+      <div className="flex-1 px-8 pt-4 pb-7 space-y-4">
         {/* Summary */}
         {p.summary && (
           <div>
             <h2 className="text-[8.5px] font-bold uppercase tracking-widest mb-1" style={{ color: '#4a4a4a' }}>Professional Summary</h2>
-            <p className="text-gray-700 leading-relaxed italic">{p.summary}</p>
+            <p className="text-gray-700 leading-relaxed">{p.summary}</p>
           </div>
         )}
 
         {/* Experience */}
         {experience.length > 0 && (
           <div>
-            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-0.5 mb-2" style={{ color: '#4a4a4a', borderBottom: '1px solid #ccc' }}>Professional Experience</h2>
+            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-2" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Professional Experience</h2>
             <div className="space-y-2.5">
               {experience.map((exp) => (
                 <div key={exp.id}>
@@ -252,7 +267,7 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
         {/* Education */}
         {education.length > 0 && (
           <div>
-            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-0.5 mb-2" style={{ color: '#4a4a4a', borderBottom: '1px solid #ccc' }}>Education</h2>
+            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-2" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Education</h2>
             <div className="space-y-2">
               {education.map((edu) => (
                 <div key={edu.id}>
@@ -273,7 +288,7 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
         {/* Skills */}
         {skills.length > 0 && (
           <div>
-            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-0.5 mb-1.5" style={{ color: '#4a4a4a', borderBottom: '1px solid #ccc' }}>Skills</h2>
+            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-1.5" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Skills</h2>
             <div className="flex flex-wrap gap-x-3 gap-y-1">
               {skills.map((s) => (
                 <span key={s.id} className="inline-flex items-center text-gray-700">
@@ -288,7 +303,7 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
         {/* Languages */}
         {languages.length > 0 && (
           <div>
-            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-0.5 mb-1.5" style={{ color: '#4a4a4a', borderBottom: '1px solid #ccc' }}>Languages</h2>
+            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-1.5" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Languages</h2>
             <p className="text-gray-700">
               {languages.map((l) => `${l.name} (${l.level})`).join('  ·  ')}
             </p>
@@ -298,7 +313,7 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
         {/* Projects */}
         {projects.length > 0 && (
           <div>
-            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-0.5 mb-1.5" style={{ color: '#4a4a4a', borderBottom: '1px solid #ccc' }}>Projects</h2>
+            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-1.5" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Projects</h2>
             <div className="space-y-1.5">
               {projects.map((proj) => (
                 <div key={proj.id}>
@@ -314,7 +329,7 @@ function ClassicTemplate({ resume, accentColor }: Props & { accentColor: string 
         {/* Certifications */}
         {certifications.length > 0 && (
           <div>
-            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-0.5 mb-1.5" style={{ color: '#4a4a4a', borderBottom: '1px solid #ccc' }}>Certifications</h2>
+            <h2 className="text-[8.5px] font-bold uppercase tracking-widest pb-1 mb-1.5" style={{ color: '#4a4a4a', borderBottom: `1px solid ${ac}40` }}>Certifications</h2>
             <div className="space-y-1">
               {certifications.map((c) => (
                 <div key={c.id}>
@@ -348,17 +363,17 @@ function ExecutiveTemplate({ resume, accentColor }: Props & { accentColor: strin
   return (
     <div className="flex h-full" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9px' }}>
       {/* Sidebar */}
-      <div className="w-[34%] bg-gray-900 text-white p-6 flex flex-col gap-5">
-        <div>
-          <h1 className="text-base font-bold leading-tight">{p.fullName || 'Your Name'}</h1>
-          <div className="mt-3 space-y-1 text-gray-300" style={{ fontSize: '8px' }}>
-            {p.email && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>{p.email}</div>}
-            {p.phone && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>{p.phone}</div>}
-            {p.location && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{p.location}</div>}
-            {p.website && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: ac }}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>{p.website}</div>}
+      <div className="w-[34%] bg-gray-900 text-white flex flex-col">
+        <div className="px-6 pt-6 pb-4" style={{ backgroundColor: ac }}>
+          <h1 className="text-base font-bold leading-tight text-white">{p.fullName || 'Your Name'}</h1>
+          <div className="mt-3 space-y-1 text-white/80" style={{ fontSize: '8px' }}>
+            {p.email && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>{p.email}</div>}
+            {p.phone && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>{p.phone}</div>}
+            {p.location && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>{p.location}</div>}
+            {p.website && <div className="flex items-center gap-1.5"><svg className="w-3 h-3 shrink-0 text-white/60" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>{p.website}</div>}
           </div>
         </div>
-
+        <div className="px-6 pb-6 flex flex-col gap-5 flex-1">
         {skills.length > 0 && (
           <div>
             <h2 className="text-[7px] font-bold uppercase tracking-[0.15em] mb-2" style={{ color: ac }}>Skills</h2>
@@ -404,6 +419,7 @@ function ExecutiveTemplate({ resume, accentColor }: Props & { accentColor: strin
             </div>
           </div>
         )}
+        </div>
       </div>
 
       {/* Main */}
