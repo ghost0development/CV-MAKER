@@ -86,15 +86,31 @@ export function Editor({ resume: initialResume, onBack }: EditorProps) {
     const printWindow = window.open('', '_blank');
     if (!printWindow) return;
 
+    const styles = Array.from(document.styleSheets)
+      .map((sheet) => {
+        try {
+          if (sheet.cssRules) {
+            return Array.from(sheet.cssRules).map((r) => r.cssText).join('');
+          }
+        } catch {}
+        return '';
+      })
+      .join('');
+
+    const googleFonts = document.querySelector('link[href*="fonts.googleapis"]')
+      ?.outerHTML || '';
+
     printWindow.document.write(`
       <!DOCTYPE html>
       <html>
       <head>
         <title>${resume.personal_info.fullName || 'Resume'} - CV</title>
+        ${googleFonts}
         <style>
           @page { margin: 0; size: A4; }
           body { margin: 0; padding: 0; }
           * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          ${styles}
         </style>
       </head>
       <body>
