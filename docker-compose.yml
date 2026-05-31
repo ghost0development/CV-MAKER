@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  sqld:
+    image: ghcr.io/tursodatabase/libsql-server:latest
+    container_name: cvmaker-sqld
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - SQLD_NODE=primary
+      - SQLD_DB_PATH=/data/cvmaker.db
+    volumes:
+      - sqld-data:/data
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cvmaker-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - sqld
+    environment:
+      - PORT=3000
+      - DATABASE_URL=http://sqld:8080
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - NODE_ENV=production
+    volumes:
+      - ./backend/market_profiles.json:/app/market_profiles.json
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cvmaker-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  sqld-data:
