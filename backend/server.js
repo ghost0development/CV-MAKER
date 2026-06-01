@@ -1,4 +1,4 @@
-
+"""
 CV Maker Backend - Server Entry Point
 Enterprise-grade Express application for CV Maker platform.
 """
