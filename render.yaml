@@ -1,18 +1,18 @@
 services:
   - type: web
-    name: cv-maker-backend
-    env: node
-    plan: free
-    region: oregon
-    root: backend
-    buildCommand: npm install
-    startCommand: npm start
+    name: CV-MAKER Backend
+    runtime: node
+    region: tokyo
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
     envVars:
-      - key: NODE_VERSION
-        value: 20.x
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
       - key: JWT_SECRET
         generateValue: true
-      - key: PORT
-        value: 10000
-    healthCheckPath: /api/health
-    autoDeploy: true
+      - key: SQLD_URL
+        value: libsql://cv-maker-voicenotesite.aws-ap-northeast-1.turso.io
+      - key: TURSO_AUTH_TOKEN
+        sync: false
