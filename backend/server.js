@@ -1,7 +1,3 @@
-/*
-CV Maker Backend - Server Entry Point
-Enterprise-grade Express application for CV Maker platform.
-*/
 import express from 'express';
 import cors from 'cors';
 import { networkInterfaces } from 'os';
