@@ -216,29 +216,40 @@ export default function CVEditor() {
   const handleDownloadPDF = () => {
     const lang = data.language === 'auto' ? detectLanguage(data) : (data.language || 'pl');
     const themeColor = activeColor;
-    const mkSection = (title, content) => `<div style="margin-bottom:14px"><h2 style="font-size:13px;font-weight:700;color:${themeColor};margin-bottom:6px;border-bottom:1px solid #e5e7eb;padding-bottom:3px">${title}</h2>${content}</div>`;
+    const mkSection = (title, content) => `<div style="margin-bottom:14px"><h2 style="font-size:14px;font-weight:700;color:${themeColor};margin-bottom:8px;border-bottom:2px solid #e5e7eb;padding-bottom:4px">${title}</h2>${content}</div>`;
     const mkExp = (e) => `<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between"><div><span style="font-weight:600;font-size:12px">${e.position||''}</span><span style="font-size:11px;color:#64748b"> · ${e.company||''}${e.location?', '+e.location:''}</span></div><span style="font-size:10px;color:#94a3b8;white-space:nowrap">${e.startDate||''} - ${e.endDate||t(lang,'present')}</span></div>${e.description?`<p style="font-size:11px;color:#475569;margin-top:2px;line-height:1.5">${e.description}</p>`:''}</div>`;
-    const mkSkill = (s) => `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-size:11px;width:120px;flex-shrink:0">${s.name||''}</span><div style="flex:1;background:#e5e7eb;border-radius:9999px;height:5px"><div style="width:${(s.level||5)*10}%;background:${themeColor};height:5px;border-radius:9999px"></div></div><span style="font-size:10px;color:${themeColor};width:30px;text-align:right;font-weight:600">${s.level||5}/10</span></div>`;
+    const mkSkill = (s) => `<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px;font-weight:500;color:#1f2937">${s.name||''}</span><span style="font-size:12px;font-weight:600;color:${themeColor}">${s.level||5}/10</span></div><div style="width:100%;background:#e5e7eb;border-radius:9999px;height:8px"><div style="width:${(s.level||5)*10}%;background:${themeColor};height:8px;border-radius:9999px"></div></div></div>`;
 
-    let html = `<div style="font-family:'${font}',sans-serif;padding:20mm 15mm;background:white;width:210mm;min-height:297mm;color:#1e293b;font-size:12px;line-height:1.5">`;
-    html += `<div style="border-bottom:2.5px solid ${themeColor};padding-bottom:10px;margin-bottom:14px">`;
-    html += `<h1 style="font-size:22px;font-weight:700;color:${themeColor};margin-bottom:2px">${data.firstName||''} ${data.lastName||''}</h1>`;
-    if(data.title) html += `<p style="font-size:13px;color:#64748b;margin-bottom:4px">${data.title}</p>`;
-    html += `<p style="font-size:10px;color:#94a3b8">${[data.email,data.phone,data.location,data.website,data.linkedin].filter(Boolean).join(' · ')}</p></div>`;
-    if(data.summary) html += mkSection(t(lang,'summary'),`<p style="font-size:11px;color:#475569;line-height:1.5">${data.summary}</p>`);
-    if(data.experience?.length) html += mkSection(t(lang,'experience'),data.experience.map(mkExp).join(''));
-    if(data.education?.length) html += mkSection(t(lang,'education'),data.education.map(e=>`<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between"><div><span style="font-weight:600;font-size:12px">${e.degree||''}</span><span style="font-size:11px;color:#64748b"> · ${e.institution||''}</span></div><span style="font-size:10px;color:#94a3b8">${e.startDate||''} - ${e.endDate||''}</span></div>${e.description?`<p style="font-size:11px;color:#475569;margin-top:2px">${e.description}</p>`:''}</div>`).join(''));
-    if(data.skills?.length) html += mkSection(t(lang,'skills'),data.skills.map(mkSkill).join(''));
-    if(data.languages?.length) html += mkSection(t(lang,'languages'),`<div style="display:flex;flex-wrap:wrap;gap:4px 12px">${data.languages.map(l=>`<span style="font-size:11px">${l.name||''}${l.level?' - '+l.level:''}</span>`).join('')}</div>`);
-    if(data.certifications?.length) html += mkSection(t(lang,'certifications'),data.certifications.map(c=>`<p style="font-size:11px;margin-bottom:2px"><span style="font-weight:500">${c.name||''}</span>${c.issuer?' - '+c.issuer:''}${c.date?' ('+c.date+')':''}</p>`).join(''));
-    if(data.projects?.length) html += mkSection(t(lang,'projects'),data.projects.map(p=>`<div style="margin-bottom:4px"><span style="font-weight:500;font-size:11px">${p.name||''}</span>${p.description?'<span style="font-size:11px;color:#475569"> — '+p.description+'</span>':''}${p.url?'<br><span style="font-size:9px;color:#2563eb">'+p.url+'</span>':''}</div>`).join(''));
-    if(data.hobbies?.length) html += mkSection(t(lang,'interests'),`<p style="font-size:11px">${data.hobbies.map(h=>h.name||h).join(', ')}</p>`);
-    html += '</div>';
+    let content = `<div style="font-family:'${font}',sans-serif;padding:20mm 15mm;background:white;width:210mm;color:#1e293b;font-size:12px;line-height:1.5">`;
+    content += `<div style="border-bottom:3px solid ${themeColor};padding-bottom:10px;margin-bottom:14px">`;
+    content += `<h1 style="font-size:24px;font-weight:700;color:${themeColor};margin-bottom:2px">${data.firstName||''} ${data.lastName||''}</h1>`;
+    if(data.title) content += `<p style="font-size:14px;color:#64748b;margin-bottom:4px">${data.title}</p>`;
+    content += `<p style="font-size:10px;color:#94a3b8">${[data.email,data.phone,data.location,data.website,data.linkedin].filter(Boolean).join(' · ')}</p></div>`;
+    if(data.summary) content += mkSection(t(lang,'summary'),`<p style="font-size:12px;color:#475569;line-height:1.6">${data.summary}</p>`);
+    if(data.experience?.length) content += mkSection(t(lang,'experience'),data.experience.map(mkExp).join(''));
+    if(data.education?.length) content += mkSection(t(lang,'education'),data.education.map(e=>`<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between"><div><span style="font-weight:600;font-size:12px">${e.degree||''}</span><span style="font-size:11px;color:#64748b"> · ${e.institution||''}</span></div><span style="font-size:10px;color:#94a3b8">${e.startDate||''} - ${e.endDate||''}</span></div>${e.description?`<p style="font-size:11px;color:#475569;margin-top:2px">${e.description}</p>`:''}</div>`).join(''));
+    if(data.skills?.length) content += mkSection(t(lang,'skills'),data.skills.map(mkSkill).join(''));
+    if(data.languages?.length) content += mkSection(t(lang,'languages'),`<div style="display:flex;flex-wrap:wrap;gap:4px 16px">${data.languages.map(l=>`<span style="font-size:12px">${l.name||''}${l.level?' — '+l.level:''}</span>`).join('')}</div>`);
+    if(data.certifications?.length) content += mkSection(t(lang,'certifications'),data.certifications.map(c=>`<p style="font-size:11px;margin-bottom:2px"><span style="font-weight:500">${c.name||''}</span>${c.issuer?' - '+c.issuer:''}${c.date?' ('+c.date+')':''}</p>`).join(''));
+    if(data.projects?.length) content += mkSection(t(lang,'projects'),data.projects.map(p=>`<div style="margin-bottom:4px"><span style="font-weight:500;font-size:11px">${p.name||''}</span>${p.description?'<span style="font-size:11px;color:#475569"> — '+p.description+'</span>':''}${p.url?'<br><span style="font-size:9px;color:#2563eb">'+p.url+'</span>':''}</div>`).join(''));
+    if(data.hobbies?.length) content += mkSection(t(lang,'interests'),`<p style="font-size:12px">${data.hobbies.map(h=>h.name||h).join(' · ')}</p>`);
+    content += '</div>';
 
+    const A4_H = 1122;
     const w = window.open('','_blank');
-    w.document.write(`<!DOCTYPE html><html><head><title>CV</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>@page{size:A4;margin:0}*{margin:0;padding:0;box-sizing:border-box}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body>${html}</body></html>`);
+    w.document.write(`<!DOCTYPE html><html><head><title>CV</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>@page{size:A4;margin:0}*{margin:0;padding:0;box-sizing:border-box}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body><div id="cv-root">${content}</div></body></html>`);
     w.document.close();
-    w.onload = () => w.print();
+    w.onload = () => {
+      const root = w.document.getElementById('cv-root');
+      const measured = root.scrollHeight;
+      if (measured > A4_H) {
+        const scale = A4_H / measured;
+        root.style.transform = `scale(${scale})`;
+        root.style.transformOrigin = 'top left';
+        root.style.width = '210mm';
+      }
+      setTimeout(() => w.print(), 100);
+    };
   };
 
   if (!cv) {
