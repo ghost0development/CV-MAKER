@@ -166,7 +166,7 @@ export default function JobDashboard() {
                 ? `Przeliczono ${scanResult.rescored} ofert, zbudowano ${scanResult.profiles} profili rynkowych`
                 : `Zeskanowano ${scanResult.scanned} ofert, +${scanResult.new} nowych (łącznie ${scanResult.total})`}
           </span>
-          <button onClick={() => setScanResult(null)}="text-gray-500 hover:text-gray-300 ml-2">✕</button>
+          <button onClick={() => setScanResult(null)} className="text-gray-500 hover:text-gray-300 ml-2">✕</button>
         </div>
       )}
 
