@@ -4,9 +4,9 @@ services:
     env: node
     plan: free
     region: oregon
-    root: backend
-    buildCommand: npm install
-    startCommand: npm start
+    root: .
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
     envVars:
       - key: NODE_VERSION
         value: 20.x
