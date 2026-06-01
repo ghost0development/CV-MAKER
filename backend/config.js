@@ -1,7 +1,7 @@
-"""
-Configuration module for CV Maker Backend.
-Centralizes all configuration constants and settings.
-"""
+/**
+ * Configuration module for CV Maker Backend.
+ * Centralizes all configuration constants and settings.
+ */
 import { config as loadEnv } from 'dotenv';
 import path from 'path';
 
