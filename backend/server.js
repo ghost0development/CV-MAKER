@@ -36,14 +36,28 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Serve frontend static files
+// Serve frontend static files from correct path
 const frontendPath = path.join(__dirname, '../frontend/dist');
-app.use(express.static(frontendPath));
+console.log('Serving frontend from:', frontendPath);
+app.use(express.static(frontendPath, {
+  index: false,
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+  }
+}));
 
 // SPA fallback - serve index.html for all non-API routes
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(frontendPath, 'index.html'));
+    const indexPath = path.join(frontendPath, 'index.html');
+    res.sendFile(indexPath, (err) => {
+      if (err) {
+        console.error('Error serving index.html:', err.message);
+        res.status(404).json({ error: 'Frontend not found' });
+      }
+    });
   } else {
     res.status(404).json({ error: 'API route not found' });
   }
