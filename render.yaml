@@ -2,7 +2,7 @@ services:
   - type: web
     name: CV-MAKER
     runtime: node
-    region: oregon
+    region: tokyo
     buildCommand: cd frontend && npm install && npm run build && cd ../backend && npm install
     startCommand: cd backend && node server.js
     envVars:
