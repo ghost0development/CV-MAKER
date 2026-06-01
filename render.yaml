@@ -1,9 +1,9 @@
 services:
   - type: web
-    name: CV-MAKER Backend
+    name: CV-MAKER
     runtime: node
     region: tokyo
-    buildCommand: cd backend && npm install
+    buildCommand: cd backend && npm install && cd ../frontend && npm install && npm run build && cd ../backend
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_ENV
@@ -16,13 +16,3 @@ services:
         value: libsql://cv-maker-voicenotesite.aws-ap-northeast-1.turso.io
       - key: TURSO_AUTH_TOKEN
         sync: false
-
-  - type: web
-    name: CV-MAKER Frontend
-    runtime: node
-    region: tokyo
-    buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npm run preview -- --host 0.0.0.0
-    envVars:
-      - key: VITE_API_URL
-        value: https://srv-d8er9t1kh4rs73cboang.onrender.com
