@@ -48,15 +48,43 @@ function getLocalIP() {
 }
 
 /**
+ * Seed database with test user if needed
+ */
+async function seedTestUser() {
+  try {
+    const { get, run } = await import('./database.js');
+    const bcrypt = await import('bcryptjs');
+    const { v4: uuidv4 } = await import('uuid');
+
+    const existingUser = await get('SELECT id FROM users WHERE email = ?', ['test@t.pl']);
+    if (!existingUser) {
+      const testUserId = uuidv4();
+      const hashedPassword = bcrypt.default.hashSync('test123', 10);
+      await run(
+        'INSERT INTO users (id, email, password, name) VALUES (?, ?, ?, ?)',
+        [testUserId, 'test@t.pl', hashedPassword, 'Test User']
+      );
+      console.log('✓ Test user created automatically (test@t.pl / test123)');
+    }
+  } catch (err) {
+    console.warn('⚠ Could not seed test user:', err.message);
+  }
+}
+
+/**
  * Start the server and initialize database connection
  */
 async function start() {
   try {
     // Initialize database connection
     await getDb();
-    console.log('Database connected via libSQL/sqld');
+    console.log('✓ Database connected via libSQL/sqld');
+
+    // Seed test user
+    await seedTestUser();
+
   } catch (err) {
-    console.error('Database initialization failed:', err.message);
+    console.error('✗ Database initialization failed:', err.message);
     process.exit(1);
   }
 
@@ -71,6 +99,10 @@ async function start() {
     console.log(`║  Network:  http://${ip.padEnd(14)}:${SERVER_CONFIG.PORT}           ║`);
     console.log(`║  SQL sync: http://${ip.padEnd(14)}:8080 (sqld)   ║`);
     console.log('╚═══════════════════════════════════════════════╝');
+    console.log('');
+    console.log('📝 Test credentials:');
+    console.log('   Email: test@t.pl');
+    console.log('   Password: test123');
     console.log('');
   });
 }
@@ -91,12 +123,12 @@ process.on('SIGTERM', async () => {
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
-  console.error('Uncaught Exception:', err);
+  console.error('✗ Uncaught Exception:', err);
   process.exit(1);
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  console.error('✗ Unhandled Rejection at:', promise, 'reason:', reason);
   process.exit(1);
 });
