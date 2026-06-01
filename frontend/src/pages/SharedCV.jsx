@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FileText, Download } from 'lucide-react';
 import { cvs } from '../api/client';
-import { t, detectLanguage, getRatingLabel } from '../i18n';
+import { t, detectLanguage } from '../i18n';
 
 export default function SharedCV() {
   const { link } = useParams();
@@ -17,10 +17,10 @@ export default function SharedCV() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface flex items-center justify-center p-4">
         <div className="card text-center py-16">
-          <FileText size={64} className="mx-auto text-gray-300 mb-4" />
-          <h2 className="text-xl font-semibold text-gray-600">{error}</h2>
+          <FileText size={64} className="mx-auto text-gray-600 mb-4" />
+          <h2 className="text-xl font-semibold text-gray-300">{error}</h2>
         </div>
       </div>
     );
@@ -28,7 +28,7 @@ export default function SharedCV() {
 
   if (!cv) {
     return (
-      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="min-h-screen bg-surface flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600" />
       </div>
     );
@@ -37,11 +37,11 @@ export default function SharedCV() {
   const data = JSON.parse(cv.data);
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+    <div className="min-h-screen bg-surface">
+      <div className="bg-surface-50 border-b border-surface-200 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <FileText size={20} className="text-primary-600" />
-          <span className="font-semibold">{cv.title}</span>
+          <FileText size={20} className="text-primary-400" />
+          <span className="font-semibold text-gray-100">{cv.title}</span>
         </div>
         <button onClick={() => window.print()} className="btn-secondary text-sm flex items-center gap-1">
           <Download size={16} /> Drukuj / PDF
@@ -168,7 +168,7 @@ function CVContent({ data }) {
             <div key={i} className="mb-2">
               <p className="font-medium text-gray-900">{proj.name}</p>
               {proj.description && <p className="text-sm text-gray-700">{proj.description}</p>}
-              {proj.url && <p className="text-xs text-primary-600">{proj.url}</p>}
+              {proj.url && <p className="text-xs text-blue-600">{proj.url}</p>}
             </div>
           ))}
         </div>

@@ -4,31 +4,36 @@
 
 @layer base {
   body {
-    @apply text-gray-900 antialiased;
+    @apply bg-surface text-gray-100 antialiased;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-700 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-primary-600 text-white px-4 py-2 rounded-lg hover:bg-primary-500 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed;
+    box-shadow: 0 0 20px rgba(108, 92, 231, 0.3);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 0 30px rgba(108, 92, 231, 0.5);
   }
   .btn-secondary {
-    @apply bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-all font-medium;
+    @apply bg-surface-100 text-gray-300 px-4 py-2 rounded-lg hover:bg-surface-200 transition-all font-medium border border-surface-200;
   }
   .btn-ghost {
-    @apply bg-transparent text-gray-600 px-2 py-1 rounded-lg hover:bg-gray-100 transition-all font-medium;
+    @apply bg-transparent text-gray-400 px-2 py-1 rounded-lg hover:bg-surface-100 hover:text-gray-200 transition-all font-medium;
   }
   .btn-danger {
-    @apply bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all font-medium;
+    @apply bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-500 transition-all font-medium;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
   }
   .input-field {
-    @apply w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all;
+    @apply w-full bg-surface-100 border border-surface-200 rounded-lg px-3 py-2 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all;
   }
   .input {
-    @apply border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all bg-white text-gray-800;
+    @apply bg-surface-100 border border-surface-200 rounded-lg px-3 py-2 text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent transition-all;
   }
   .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+    @apply bg-surface-50 rounded-xl border border-surface-200 p-6;
   }
 }
 
@@ -36,7 +41,21 @@
   width: 210mm;
   min-height: 297mm;
   background: white;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.5);
   margin: 0 auto;
   padding: 20mm 15mm;
+}
+
+.glass {
+  background: rgba(20, 20, 31, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glow {
+  box-shadow: 0 0 20px rgba(108, 92, 231, 0.15);
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 30px rgba(108, 92, 231, 0.3);
 }

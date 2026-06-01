@@ -23,7 +23,7 @@ function PublicRoute({ children }) {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-surface">
       <Navbar />
       <Routes>
         <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />

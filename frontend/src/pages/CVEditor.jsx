@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Save, ArrowLeft, Download, Eye, Edit3, Plus, Trash2, GripVertical, Share2, Palette, Type, Layout, User, Briefcase, GraduationCap, Wrench, Globe, Award, FolderGit, Heart, Languages, Image, Bot } from 'lucide-react';
+import { Save, ArrowLeft, Download, Edit3, Plus, Trash2, Share2, User, Briefcase, GraduationCap, Wrench, Globe, Award, FolderGit, Heart, Layout, Bot } from 'lucide-react';
 import { cvs, templates } from '../api/client';
 import { t, detectLanguage, getRatingLabel } from '../i18n';
 import toast from 'react-hot-toast';
@@ -53,9 +53,9 @@ const DEFAULT_DATA = {
 function SectionCard({ icon: Icon, label, children }) {
   return (
     <div className="card mb-4">
-      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
-        <Icon size={18} className="text-primary-600" />
-        <h3 className="font-semibold text-gray-800">{label}</h3>
+      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-surface-200">
+        <Icon size={18} className="text-primary-400" />
+        <h3 className="font-semibold text-gray-200">{label}</h3>
       </div>
       {children}
     </div>
@@ -82,14 +82,14 @@ function EntryEditor({ entries, setEntries, fields }) {
   return (
     <div className="space-y-3">
       {entries.map((entry, i) => (
-        <div key={i} className="p-3 bg-gray-50 rounded-lg border border-gray-200 relative">
-          <button onClick={() => remove(i)} className="absolute top-2 right-2 text-red-400 hover:text-red-600 p-1">
+        <div key={i} className="p-3 bg-surface-100 rounded-lg border border-surface-200 relative">
+          <button onClick={() => remove(i)} className="absolute top-2 right-2 text-red-400 hover:text-red-300 p-1">
             <Trash2 size={14} />
           </button>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pr-8">
             {fields.map(f => (
               <div key={f.key} className={f.fullWidth ? 'sm:col-span-2' : ''}>
-                <label className="text-xs font-medium text-gray-500">{f.label}</label>
+                <label className="text-xs font-medium text-gray-400">{f.label}</label>
                 {f.type === 'textarea' ? (
                   <textarea className="input-field text-sm" rows={2} value={entry[f.key] || ''} onChange={e => update(i, f.key, e.target.value)} placeholder={f.placeholder} />
                 ) : (
@@ -129,8 +129,8 @@ export default function CVEditor() {
       setTheme(cvData.theme);
       setFont(cvData.font);
       const parsed = { ...DEFAULT_DATA, ...JSON.parse(cvData.data) };
-    if (!parsed.language) parsed.language = detectLanguage(parsed);
-    setData(parsed);
+      if (!parsed.language) parsed.language = detectLanguage(parsed);
+      setData(parsed);
     }).catch(() => toast.error('Nie znaleziono CV'));
   }, [id]);
 
@@ -152,9 +152,7 @@ export default function CVEditor() {
        toast.error('Wypełnij najpierw podstawowe informacje');
        return;
      }
-     
      try {
-       // Prepare prompt for AI
        const prompt = `Wykonujesz rolę eksperta ds. kariery i rekrutacji. Na podstawie następujących informacji o użytkowniku:
        Imię: ${data.firstName || 'Nie podane'}
        Nazwisko: ${data.lastName || 'Nie podane'}
@@ -170,29 +168,19 @@ export default function CVEditor() {
        
        const response = await fetch('https://voicenotesite-chat-proxy.onrender.com/v1/chat/completions', {
          method: 'POST',
-         headers: {
-           'Content-Type': 'application/json',
-         },
+         headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify({
            model: 'llama-3.3-70b-versatile',
            messages: [
-             {
-               role: 'system',
-               content: 'Jesteś ekspertem ds. kariery i rekrutacji specjalizującym się w tworzeniu profesjonalnych podsumowań zawodowych.'
-             },
-             {
-               role: 'user',
-               content: prompt
-             }
+             { role: 'system', content: 'Jesteś ekspertem ds. kariery i rekrutacji specjalizującym się w tworzeniu profesjonalnych podsumowań zawodowych.' },
+             { role: 'user', content: prompt }
            ],
            temperature: 0.7,
            max_tokens: 500
          })
        });
        
-       if (!response.ok) {
-         throw new Error('Błąd komunikacji z AI');
-       }
+       if (!response.ok) throw new Error('Błąd komunikacji z AI');
        
        const result = await response.json();
        const aiSummary = result.choices[0]?.message?.content?.trim() || '';
@@ -200,10 +188,7 @@ export default function CVEditor() {
        if (aiSummary) {
          setData(prev => ({
            ...prev,
-           aiSuggestions: {
-             ...prev.aiSuggestions,
-             summary: aiSummary
-           }
+           aiSuggestions: { ...prev.aiSuggestions, summary: aiSummary }
          }));
          toast.success('Wygenerowano sugestię AI!');
        } else {
@@ -252,9 +237,9 @@ export default function CVEditor() {
   const activeColor = currentTheme.color;
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100">
+    <div className="h-screen flex flex-col bg-surface">
       {/* Top Bar */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between flex-shrink-0">
+      <div className="bg-surface-50 border-b border-surface-200 px-4 py-3 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <button onClick={() => navigate('/dashboard')} className="btn-secondary p-2">
             <ArrowLeft size={20} />
@@ -263,7 +248,7 @@ export default function CVEditor() {
             type="text"
             value={title}
             onChange={e => setTitle(e.target.value)}
-            className="font-semibold text-lg bg-transparent border-b-2 border-transparent hover:border-gray-300 focus:border-primary-500 focus:outline-none px-1"
+            className="font-semibold text-lg bg-transparent border-b-2 border-transparent hover:border-surface-300 focus:border-primary-500 focus:outline-none px-1 text-gray-100"
           />
         </div>
         <div className="flex items-center gap-2">
@@ -281,50 +266,50 @@ export default function CVEditor() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Left Panel - Editor */}
-        <div className="w-[480px] overflow-y-auto border-r border-gray-200 bg-white p-4 flex-shrink-0">
+        <div className="w-[480px] overflow-y-auto border-r border-surface-200 bg-surface-50 p-4 flex-shrink-0">
           {/* Template & Style */}
           <SectionCard icon={Layout} label="Szablon i styl">
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-medium text-gray-500 mb-1 block">Język / Language</label>
+                <label className="text-xs font-medium text-gray-400 mb-1 block">Język / Language</label>
                 <div className="flex gap-2">
                   <button onClick={() => setData({...data, language: 'pl'})}
-                    className={`flex-1 p-2 text-sm rounded-lg border-2 text-center transition-all ${data.language === 'pl' ? 'border-primary-500 bg-primary-50' : 'border-gray-200'}`}>
+                    className={`flex-1 p-2 text-sm rounded-lg border-2 text-center transition-all ${data.language === 'pl' ? 'border-primary-500 bg-primary-600/20 text-primary-300' : 'border-surface-200 text-gray-400 hover:border-surface-300'}`}>
                     🇵🇱 Polski
                   </button>
                   <button onClick={() => setData({...data, language: 'en'})}
-                    className={`flex-1 p-2 text-sm rounded-lg border-2 text-center transition-all ${data.language === 'en' ? 'border-primary-500 bg-primary-50' : 'border-gray-200'}`}>
+                    className={`flex-1 p-2 text-sm rounded-lg border-2 text-center transition-all ${data.language === 'en' ? 'border-primary-500 bg-primary-600/20 text-primary-300' : 'border-surface-200 text-gray-400 hover:border-surface-300'}`}>
                     🇬🇧 English
                   </button>
                   <button onClick={() => setData({...data, language: 'auto'})}
-                    className={`flex-1 p-2 text-sm rounded-lg border-2 text-center transition-all ${data.language === 'auto' ? 'border-primary-500 bg-primary-50' : 'border-gray-200'}`}>
+                    className={`flex-1 p-2 text-sm rounded-lg border-2 text-center transition-all ${data.language === 'auto' ? 'border-primary-500 bg-primary-600/20 text-primary-300' : 'border-surface-200 text-gray-400 hover:border-surface-300'}`}>
                     🔄 Auto
                   </button>
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-500 mb-1 block">Szablon</label>
+                <label className="text-xs font-medium text-gray-400 mb-1 block">Szablon</label>
                 <div className="grid grid-cols-5 gap-2">
                   {templateList.map(t => (
                     <button key={t.id} onClick={() => setTemplate(t.id)}
-                      className={`p-2 text-xs rounded-lg border-2 text-center transition-all ${template === t.id ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300'}`}>
+                      className={`p-2 text-xs rounded-lg border-2 text-center transition-all ${template === t.id ? 'border-primary-500 bg-primary-600/20 text-primary-300' : 'border-surface-200 text-gray-400 hover:border-surface-300'}`}>
                       {t.name}
                     </button>
                   ))}
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-500 mb-1 block">Kolor</label>
+                <label className="text-xs font-medium text-gray-400 mb-1 block">Kolor</label>
                 <div className="flex gap-2 flex-wrap">
                   {THEMES.map(t => (
                     <button key={t.id} onClick={() => setTheme(t.id)}
-                      className={`w-8 h-8 rounded-full border-2 transition-all ${theme === t.id ? 'border-gray-900 scale-110' : 'border-transparent'}`}
+                      className={`w-8 h-8 rounded-full border-2 transition-all ${theme === t.id ? 'border-gray-100 scale-110 ring-2 ring-primary-600/50' : 'border-surface-300'}`}
                       style={{ backgroundColor: t.color }} title={t.name} />
                   ))}
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-500 mb-1 block">Czcionka</label>
+                <label className="text-xs font-medium text-gray-400 mb-1 block">Czcionka</label>
                 <select value={font} onChange={e => setFont(e.target.value)} className="input-field text-sm">
                   {FONTS.map(f => <option key={f.id} value={f.id}>{f.name}</option>)}
                 </select>
@@ -337,39 +322,39 @@ export default function CVEditor() {
             <div className="space-y-2">
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Imię</label>
+                  <label className="text-xs font-medium text-gray-400">Imię</label>
                   <input className="input-field text-sm" value={data.firstName} onChange={e => setData({...data, firstName: e.target.value})} />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Nazwisko</label>
+                  <label className="text-xs font-medium text-gray-400">Nazwisko</label>
                   <input className="input-field text-sm" value={data.lastName} onChange={e => setData({...data, lastName: e.target.value})} />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-500">Stanowisko / Tytuł</label>
+                <label className="text-xs font-medium text-gray-400">Stanowisko / Tytuł</label>
                 <input className="input-field text-sm" value={data.title} onChange={e => setData({...data, title: e.target.value})} placeholder="Senior Software Engineer" />
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Email</label>
+                  <label className="text-xs font-medium text-gray-400">Email</label>
                   <input className="input-field text-sm" value={data.email} onChange={e => setData({...data, email: e.target.value})} />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Telefon</label>
+                  <label className="text-xs font-medium text-gray-400">Telefon</label>
                   <input className="input-field text-sm" value={data.phone} onChange={e => setData({...data, phone: e.target.value})} />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-medium text-gray-500">Lokalizacja</label>
+                <label className="text-xs font-medium text-gray-400">Lokalizacja</label>
                 <input className="input-field text-sm" value={data.location} onChange={e => setData({...data, location: e.target.value})} placeholder="Warszawa, Polska" />
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="text-xs font-medium text-gray-500">Strona WWW</label>
+                  <label className="text-xs font-medium text-gray-400">Strona WWW</label>
                   <input className="input-field text-sm" value={data.website} onChange={e => setData({...data, website: e.target.value})} />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-500">LinkedIn</label>
+                  <label className="text-xs font-medium text-gray-400">LinkedIn</label>
                   <input className="input-field text-sm" value={data.linkedin} onChange={e => setData({...data, linkedin: e.target.value})} />
                 </div>
               </div>
@@ -381,14 +366,14 @@ export default function CVEditor() {
              <div className="space-y-2">
                <textarea className="input-field text-sm" rows={3} value={data.summary} onChange={e => setData({...data, summary: e.target.value})} placeholder="Krótkie podsumowanie zawodowe..." />
                {data.aiSuggestions.summary && (
-                 <div className="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-sm">
+                 <div className="mt-2 p-3 bg-primary-600/10 border-l-4 border-primary-500 text-sm rounded-r-lg">
                    <div className="flex items-start gap-2">
-                     <Bot size={16} className="text-blue-400 mt-0.5" />
+                     <Bot size={16} className="text-primary-400 mt-0.5" />
                      <div>
-                       <p className="font-medium text-blue-800 mb-1">Sugestia AI:</p>
-                       <p className="text-blue-700">{data.aiSuggestions.summary}</p>
+                       <p className="font-medium text-primary-300 mb-1">Sugestia AI:</p>
+                       <p className="text-gray-300">{data.aiSuggestions.summary}</p>
                        <button onClick={() => setData({...data, summary: data.aiSuggestions.summary, aiSuggestions: {...data.aiSuggestions, summary: ''}})} 
-                               className="btn-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded hover:bg-blue-200">
+                               className="mt-2 text-xs bg-primary-600/20 text-primary-300 px-2 py-1 rounded hover:bg-primary-600/30 transition-colors">
                          Użyj tej sugestii
                        </button>
                      </div>
@@ -437,27 +422,27 @@ export default function CVEditor() {
           <SectionCard icon={Wrench} label="Umiejętności">
             <div className="space-y-3">
               {data.skills.map((skill, i) => (
-                <div key={i} className="p-3 bg-gray-50 rounded-lg border border-gray-200 relative">
-                  <button onClick={() => setData({...data, skills: data.skills.filter((_, j) => j !== i)})} className="absolute top-2 right-2 text-red-400 hover:text-red-600 p-1">
+                <div key={i} className="p-3 bg-surface-100 rounded-lg border border-surface-200 relative">
+                  <button onClick={() => setData({...data, skills: data.skills.filter((_, j) => j !== i)})} className="absolute top-2 right-2 text-red-400 hover:text-red-300 p-1">
                     <Trash2 size={14} />
                   </button>
                   <div className="grid grid-cols-1 gap-2 pr-8">
                     <div>
-                      <label className="text-xs font-medium text-gray-500">Umiejętność</label>
+                      <label className="text-xs font-medium text-gray-400">Umiejętność</label>
                       <input className="input-field text-sm" value={skill.name || ''} onChange={e => {
                         const s = [...data.skills]; s[i] = {...s[i], name: e.target.value}; setData({...data, skills: s});
                       }} placeholder="React" />
                     </div>
                     <div>
-                      <label className="text-xs font-medium text-gray-500">Ocena: {skill.level || 5}/10</label>
+                      <label className="text-xs font-medium text-gray-400">Ocena: {skill.level || 5}/10</label>
                       <input type="range" min="1" max="10" value={skill.level || 5} step="1" onChange={e => {
                         const s = [...data.skills]; s[i] = {...s[i], level: parseInt(e.target.value)}; setData({...data, skills: s});
                       }} className="w-full accent-primary-600" />
-                      <div className="flex justify-between text-xs text-gray-400">
+                      <div className="flex justify-between text-xs text-gray-500">
                         <span>1 - {getRatingLabel(data.language, 1)}</span>
                         <span>10 - {getRatingLabel(data.language, 10)}</span>
                       </div>
-                      <div className="text-center text-sm font-medium mt-1">
+                      <div className="text-center text-sm font-medium mt-1 text-gray-300">
                         {skill.level || 5}/10 · {getRatingLabel(data.language, skill.level || 5)}
                       </div>
                     </div>
@@ -520,13 +505,13 @@ export default function CVEditor() {
             />
           </SectionCard>
 
-          <div className="text-xs text-gray-400 text-center py-4">
+          <div className="text-xs text-gray-500 text-center py-4">
             Wszystkie zmiany zapisuj ręcznie przyciskiem Zapisz
           </div>
         </div>
 
         {/* Right Panel - Preview */}
-        <div className="flex-1 overflow-y-auto bg-gray-200 p-8">
+        <div className="flex-1 overflow-y-auto bg-surface p-8">
           <div className="cv-page" ref={previewRef} style={{ fontFamily: font }}>
             <CVPreviewContent data={data} theme={activeColor} template={template} />
           </div>
@@ -666,7 +651,7 @@ function CVPreviewContent({ data, theme, template }) {
             <div key={i} className="mb-2">
               <p className="font-medium text-gray-900">{proj.name}</p>
               {proj.description && <p className="text-sm text-gray-700">{proj.description}</p>}
-              {proj.url && <p className="text-xs text-primary-600">{proj.url}</p>}
+              {proj.url && <p className="text-xs text-blue-600">{proj.url}</p>}
             </div>
           ))}
         </div>
