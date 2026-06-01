@@ -213,17 +213,23 @@ export default function CVEditor() {
     }
   };
 
-  const handleDownloadPDF = async () => {
-    try {
-      const blob = await cvs.downloadPDF(id);
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = `cv-${id}.pdf`; a.click();
-      URL.revokeObjectURL(url);
-      toast.success('PDF pobrany');
-    } catch {
-      toast.error('Błąd generowania PDF');
-    }
+  const handleDownloadPDF = () => {
+    const printWindow = window.open('', '_blank');
+    const previewHTML = previewRef.current.outerHTML;
+    printWindow.document.write(`<!DOCTYPE html>
+<html><head>
+<title>CV - ${data.firstName} ${data.lastName}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: '${font}', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .cv-page { width: 210mm; min-height: 297mm; padding: 20mm 15mm; background: white; margin: 0; box-shadow: none; }
+  @media print { body { margin: 0; } .cv-page { box-shadow: none; } }
+</style>
+</head><body>${previewHTML}</body></html>`);
+    printWindow.document.close();
+    printWindow.onload = () => { printWindow.print(); };
   };
 
   if (!cv) {

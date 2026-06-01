@@ -65,12 +65,37 @@ export default function Dashboard() {
 
   const handleDownloadPDF = async (id) => {
     try {
-      const blob = await cvs.downloadPDF(id);
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = `cv-${id}.pdf`; a.click();
-      URL.revokeObjectURL(url);
-      toast.success('PDF pobrany');
+      const cvData = await cvs.get(id);
+      const data = JSON.parse(cvData.data);
+      const lang = data.language === 'auto' ? 'pl' : (data.language || 'pl');
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`<!DOCTYPE html>
+<html><head>
+<title>CV - ${cvData.title}</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: '${cvData.font || 'Inter'}', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .cv-page { width: 210mm; min-height: 297mm; padding: 20mm 15mm; background: white; margin: 0; }
+  @media print { body { margin: 0; } }
+</style>
+</head><body><div class="cv-page" style="font-family:'${cvData.font || 'Inter'}'">
+<div style="border-bottom:3px solid ${cvData.theme === 'purple' ? '#9333ea' : '#2563eb'};padding-bottom:16px;margin-bottom:24px">
+<h1 style="font-size:24px;font-weight:700;color:${cvData.theme === 'purple' ? '#9333ea' : '#2563eb'};margin-bottom:4px">${data.firstName||''} ${data.lastName||''}</h1>
+${data.title ? `<p style="font-size:14px;color:#64748b;margin-bottom:8px">${data.title}</p>` : ''}
+<p style="font-size:13px;color:#64748b">${[data.email,data.phone,data.location,data.website,data.linkedin].filter(Boolean).join(' · ')}</p>
+</div>
+${data.summary ? `<div style="margin-bottom:20px"><h2 style="font-size:14px;font-weight:700;color:${cvData.theme==='purple'?'#9333ea':'#2563eb'};margin-bottom:6px">PODSUMOWANIE</h2><p style="font-size:12px;color:#374151;line-height:1.6">${data.summary}</p></div>` : ''}
+${data.experience?.length ? `<div style="margin-bottom:20px"><h2 style="font-size:14px;font-weight:700;color:${cvData.theme==='purple'?'#9333ea':'#2563eb'};margin-bottom:8px">DOŚWIADCZENIE</h2>${data.experience.map(e=>`<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between"><div><p style="font-weight:600;font-size:13px">${e.position||''}</p><p style="font-size:12px;color:#64748b">${e.company||''}${e.location?', '+e.location:''}</p></div><p style="font-size:11px;color:#64748b;white-space:nowrap">${e.startDate||''} - ${e.endDate||'Obecnie'}</p></div>${e.description?`<p style="font-size:12px;color:#374151;margin-top:4px">${e.description}</p>`:''}</div>`).join('')}</div>` : ''}
+${data.skills?.length ? `<div style="margin-bottom:20px"><h2 style="font-size:14px;font-weight:700;color:${cvData.theme==='purple'?'#9333ea':'#2563eb'};margin-bottom:8px">UMIEJĘTNOŚCI</h2>${data.skills.map(s=>`<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px"><span style="font-weight:500">${s.name||''}</span><span style="color:${cvData.theme==='purple'?'#9333ea':'#2563eb'};font-weight:600">${s.level||5}/10</span></div><div style="width:100%;background:#e5e7eb;border-radius:9999px;height:6px"><div style="width:${(s.level||5)*10}%;background:${cvData.theme==='purple'?'#9333ea':'#2563eb'};height:6px;border-radius:9999px"></div></div></div>`).join('')}</div>` : ''}
+${data.languages?.length ? `<div style="margin-bottom:20px"><h2 style="font-size:14px;font-weight:700;color:${cvData.theme==='purple'?'#9333ea':'#2563eb'};margin-bottom:6px">JĘZYKI</h2>${data.languages.map(l=>`<p style="font-size:12px;color:#374151">${l.name||''}${l.level?' - '+l.level:''}</p>`).join('')}</div>` : ''}
+${data.projects?.length ? `<div style="margin-bottom:20px"><h2 style="font-size:14px;font-weight:700;color:${cvData.theme==='purple'?'#9333ea':'#2563eb'};margin-bottom:6px">PROJEKTY</h2>${data.projects.map(p=>`<div style="margin-bottom:6px"><p style="font-weight:500;font-size:12px">${p.name||''}</p>${p.description?`<p style="font-size:12px;color:#374151">${p.description}</p>`:''}${p.url?`<p style="font-size:11px;color:#2563eb">${p.url}</p>`:''}</div>`).join('')}</div>` : ''}
+${data.hobbies?.length ? `<div><h2 style="font-size:14px;font-weight:700;color:${cvData.theme==='purple'?'#9333ea':'#2563eb'};margin-bottom:6px">ZAINTERESOWANIA</h2><p style="font-size:12px;color:#374151">${data.hobbies.map(h=>h.name||h).join(', ')}</p></div>` : ''}
+</div></body></html>`);
+      printWindow.document.close();
+      printWindow.onload = () => { printWindow.print(); };
+      toast.success('PDF gotowy do druku');
     } catch {
       toast.error('Błąd generowania PDF');
     }
