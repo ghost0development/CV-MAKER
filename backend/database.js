@@ -1,14 +1,34 @@
 import { createClient } from '@libsql/client';
 
-const SQLD_URL = process.env.SQLD_URL || 'http://127.0.0.1:8080';
+const SQLD_URL = process.env.SQLD_URL || 'libsql://cv-maker-voicenotesite.aws-ap-northeast-1.turso.io';
+const AUTH_TOKEN = process.env.TURSO_AUTH_TOKEN;
 
 let db = null;
 
 export async function getDb() {
   if (db) return db;
 
-  db = createClient({ url: SQLD_URL });
+  // Create client with Turso authentication
+  const clientConfig = {
+    url: SQLD_URL,
+  };
 
+  if (AUTH_TOKEN) {
+    clientConfig.authToken = AUTH_TOKEN;
+  }
+
+  db = createClient(clientConfig);
+
+  try {
+    // Test connection
+    await db.execute('SELECT 1');
+    console.log('✓ Connected to Turso database');
+  } catch (err) {
+    console.error('✗ Failed to connect to Turso:', err.message);
+    throw err;
+  }
+
+  // Create tables if they don't exist
   await db.execute(`
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,
@@ -73,6 +93,7 @@ export async function getDb() {
     )
   `);
 
+  // Seed default templates
   const count = await db.execute('SELECT COUNT(*) as c FROM templates');
   if (!count.rows.length || count.rows[0].c === 0) {
     await db.execute({ sql: 'INSERT OR IGNORE INTO templates (id, name, description, is_default) VALUES (?, ?, ?, ?)', args: ['modern', 'Modern', 'Czysty i nowoczesny design', 1] });
@@ -80,6 +101,7 @@ export async function getDb() {
     await db.execute({ sql: 'INSERT OR IGNORE INTO templates (id, name, description, is_default) VALUES (?, ?, ?, ?)', args: ['minimal', 'Minimal', 'Prosty i elegancki', 0] });
     await db.execute({ sql: 'INSERT OR IGNORE INTO templates (id, name, description, is_default) VALUES (?, ?, ?, ?)', args: ['creative', 'Creative', 'Dla branż kreatywnych', 0] });
     await db.execute({ sql: 'INSERT OR IGNORE INTO templates (id, name, description, is_default) VALUES (?, ?, ?, ?)', args: ['executive', 'Executive', 'Dla stanowisk kierowniczych', 0] });
+    console.log('✓ Default templates seeded');
   }
 
   return db;
