@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { networkInterfaces } from 'os';
 import { getDb } from './database.js';
 import authRoutes from './routes/auth.js';
@@ -7,6 +9,9 @@ import cvRoutes from './routes/cvs.js';
 import templateRoutes from './routes/templates.js';
 import jobRoutes from './routes/jobs.js';
 import { SERVER_CONFIG, CORS_CONFIG, APP_CONFIG } from './config.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Create Express application
 const app = express();
@@ -29,6 +34,19 @@ app.get('/api/health', (req, res) => {
     message: `${APP_CONFIG.NAME} API is running!`,
     version: APP_CONFIG.VERSION
   });
+});
+
+// Serve frontend static files
+const frontendPath = path.join(__dirname, '../frontend/dist');
+app.use(express.static(frontendPath));
+
+// SPA fallback - serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(frontendPath, 'index.html'));
+  } else {
+    res.status(404).json({ error: 'API route not found' });
+  }
 });
 
 /**
@@ -103,6 +121,8 @@ async function start() {
     console.log('📝 Test credentials:');
     console.log('   Email: test@t.pl');
     console.log('   Password: test123');
+    console.log('');
+    console.log('✓ Frontend served at: http://localhost:' + SERVER_CONFIG.PORT);
     console.log('');
   });
 }
