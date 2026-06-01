@@ -58,11 +58,11 @@
 │  sqld     │◄────│  Backend  │◄────│  Frontend │
 │  :8080    │     │  :3000    │     │  :5173    │
 └──────────┘     └────┬─────┘     └──────────┘
-                      │
-               ┌──────▼──────┐
-               │  Scrapers   │
-               │  (50 srcs)  │
-               └─────────────┘
+                       │
+                ┌──────▼──────┐
+                │  Scrapers   │
+                │  (50 srcs)  │
+                └─────────────┘
 ```
 
 ## Quick Start
@@ -126,6 +126,14 @@ npm run dev -- --host 0.0.0.0
 | `GET` | `/api/jobs/export` | CSV export |
 
 ## Deployment
+
+### GitHub Pages (Frontend Only)
+The frontend has been deployed to GitHub Pages and is available at:
+https://voicenotesite.github.io/CV-MAKER/
+
+**Note:** The GitHub Pages deployment only includes the frontend. For full functionality, the backend must be running separately.
+
+### Full Deployment (Backend + Frontend)
 
 ```bash
 # Using Docker Compose

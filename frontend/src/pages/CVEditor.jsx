@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Save, ArrowLeft, Download, Eye, Edit3, Plus, Trash2, GripVertical, Share2, Palette, Type, Layout, User, Briefcase, GraduationCap, Wrench, Globe, Award, FolderGit, Heart, Languages } from 'lucide-react';
+import { Save, ArrowLeft, Download, Eye, Edit3, Plus, Trash2, GripVertical, Share2, Palette, Type, Layout, User, Briefcase, GraduationCap, Wrench, Globe, Award, FolderGit, Heart, Languages, Image, Bot } from 'lucide-react';
 import { cvs, templates } from '../api/client';
 import { t, detectLanguage, getRatingLabel } from '../i18n';
 import toast from 'react-hot-toast';
@@ -43,6 +43,11 @@ const DEFAULT_DATA = {
   projects: [],
   hobbies: [],
   language: 'pl',
+  aiSuggestions: {
+    summary: '',
+    experience: [],
+    skills: []
+  }
 };
 
 function SectionCard({ icon: Icon, label, children }) {
@@ -129,18 +134,86 @@ export default function CVEditor() {
     }).catch(() => toast.error('Nie znaleziono CV'));
   }, [id]);
 
-  const save = useCallback(async () => {
-    setSaving(true);
-    try {
-      const updated = await cvs.update(id, { title, template, theme, font, data });
-      setCv(updated);
-      toast.success('Zapisano!');
-    } catch {
-      toast.error('Błąd zapisu');
-    } finally {
-      setSaving(false);
-    }
-  }, [id, title, template, theme, font, data]);
+   const save = useCallback(async () => {
+     setSaving(true);
+     try {
+       const updated = await cvs.update(id, { title, template, theme, font, data });
+       setCv(updated);
+       toast.success('Zapisano!');
+     } catch {
+       toast.error('Błąd zapisu');
+     } finally {
+       setSaving(false);
+     }
+   }, [id, title, template, theme, font, data]);
+
+   const generateAISummary = useCallback(async () => {
+     if (!data.firstName && !data.lastName && !data.title) {
+       toast.error('Wypełnij najpierw podstawowe informacje');
+       return;
+     }
+     
+     try {
+       // Prepare prompt for AI
+       const prompt = `Wykonujesz rolę eksperta ds. kariery i rekrutacji. Na podstawie następujących informacji o użytkowniku:
+       Imię: ${data.firstName || 'Nie podane'}
+       Nazwisko: ${data.lastName || 'Nie podane'}
+       Stanowisko: ${data.title || 'Nie podane'}
+       
+       Wygeneruj profesjonalne podsumowanie zawodowe (3-4 zdania) w języku ${data.language === 'pl' ? 'polskim' : 'angielskim'}, które:
+       1. Podkreśla kluczowe kompetencje i doświadczenie
+       2. Jest dostosowane do branży i stanowiska
+       3. Zawiera mierzalne osiągnięcia jeśli są dostępne
+       4. Brzmieć profesjonalnie i przekonująco
+       
+       Podsumowanie powinno być gotowe do umieszczenia w CV.`;
+       
+       const response = await fetch('https://voicenotesite-chat-proxy.onrender.com/v1/chat/completions', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json',
+         },
+         body: JSON.stringify({
+           model: 'llama-3.3-70b-versatile',
+           messages: [
+             {
+               role: 'system',
+               content: 'Jesteś ekspertem ds. kariery i rekrutacji specjalizującym się w tworzeniu profesjonalnych podsumowań zawodowych.'
+             },
+             {
+               role: 'user',
+               content: prompt
+             }
+           ],
+           temperature: 0.7,
+           max_tokens: 500
+         })
+       });
+       
+       if (!response.ok) {
+         throw new Error('Błąd komunikacji z AI');
+       }
+       
+       const result = await response.json();
+       const aiSummary = result.choices[0]?.message?.content?.trim() || '';
+       
+       if (aiSummary) {
+         setData(prev => ({
+           ...prev,
+           aiSuggestions: {
+             ...prev.aiSuggestions,
+             summary: aiSummary
+           }
+         }));
+         toast.success('Wygenerowano sugestię AI!');
+       } else {
+         toast.error('Nie udało się wygenerować sugestii');
+       }
+     } catch (error) {
+       console.error('AI Error:', error);
+       toast.error('Błąd podczas generowania sugestii AI');
+     }
+   }, [data.firstName, data.lastName, data.title, data.language]);
 
   const currentTheme = THEMES.find(t => t.id === theme) || THEMES[0];
 
@@ -303,10 +376,31 @@ export default function CVEditor() {
             </div>
           </SectionCard>
 
-          {/* Summary */}
-          <SectionCard icon={Edit3} label="Podsumowanie">
-            <textarea className="input-field text-sm" rows={3} value={data.summary} onChange={e => setData({...data, summary: e.target.value})} placeholder="Krótkie podsumowanie zawodowe..." />
-          </SectionCard>
+           {/* Summary */}
+           <SectionCard icon={Edit3} label="Podsumowanie">
+             <div className="space-y-2">
+               <textarea className="input-field text-sm" rows={3} value={data.summary} onChange={e => setData({...data, summary: e.target.value})} placeholder="Krótkie podsumowanie zawodowe..." />
+               {data.aiSuggestions.summary && (
+                 <div className="mt-2 p-3 bg-blue-50 border-l-4 border-blue-400 text-sm">
+                   <div className="flex items-start gap-2">
+                     <Bot size={16} className="text-blue-400 mt-0.5" />
+                     <div>
+                       <p className="font-medium text-blue-800 mb-1">Sugestia AI:</p>
+                       <p className="text-blue-700">{data.aiSuggestions.summary}</p>
+                       <button onClick={() => setData({...data, summary: data.aiSuggestions.summary, aiSuggestions: {...data.aiSuggestions, summary: ''}})} 
+                               className="btn-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded hover:bg-blue-200">
+                         Użyj tej sugestii
+                       </button>
+                     </div>
+                   </div>
+                 </div>
+               )}
+               <button onClick={generateAISummary} disabled={!data.firstName && !data.lastName && !data.title} 
+                       className="btn-secondary w-full text-sm flex items-center justify-start py-1 mt-2">
+                 <Bot size={16} /> Wygeneruj podsumowanie z AI
+               </button>
+             </div>
+           </SectionCard>
 
           {/* Experience */}
           <SectionCard icon={Briefcase} label="Doświadczenie">
