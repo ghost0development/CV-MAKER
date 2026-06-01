@@ -214,22 +214,31 @@ export default function CVEditor() {
   };
 
   const handleDownloadPDF = () => {
-    const printWindow = window.open('', '_blank');
-    const previewHTML = previewRef.current.outerHTML;
-    printWindow.document.write(`<!DOCTYPE html>
-<html><head>
-<title>CV - ${data.firstName} ${data.lastName}</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-  @page { size: A4; margin: 0; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: '${font}', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .cv-page { width: 210mm; min-height: 297mm; padding: 20mm 15mm; background: white; margin: 0; box-shadow: none; }
-  @media print { body { margin: 0; } .cv-page { box-shadow: none; } }
-</style>
-</head><body>${previewHTML}</body></html>`);
-    printWindow.document.close();
-    printWindow.onload = () => { printWindow.print(); };
+    const lang = data.language === 'auto' ? detectLanguage(data) : (data.language || 'pl');
+    const themeColor = activeColor;
+    const mkSection = (title, content) => `<div style="margin-bottom:14px"><h2 style="font-size:13px;font-weight:700;color:${themeColor};margin-bottom:6px;border-bottom:1px solid #e5e7eb;padding-bottom:3px">${title}</h2>${content}</div>`;
+    const mkExp = (e) => `<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between"><div><span style="font-weight:600;font-size:12px">${e.position||''}</span><span style="font-size:11px;color:#64748b"> · ${e.company||''}${e.location?', '+e.location:''}</span></div><span style="font-size:10px;color:#94a3b8;white-space:nowrap">${e.startDate||''} - ${e.endDate||t(lang,'present')}</span></div>${e.description?`<p style="font-size:11px;color:#475569;margin-top:2px;line-height:1.5">${e.description}</p>`:''}</div>`;
+    const mkSkill = (s) => `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-size:11px;width:120px;flex-shrink:0">${s.name||''}</span><div style="flex:1;background:#e5e7eb;border-radius:9999px;height:5px"><div style="width:${(s.level||5)*10}%;background:${themeColor};height:5px;border-radius:9999px"></div></div><span style="font-size:10px;color:${themeColor};width:30px;text-align:right;font-weight:600">${s.level||5}/10</span></div>`;
+
+    let html = `<div style="font-family:'${font}',sans-serif;padding:20mm 15mm;background:white;width:210mm;min-height:297mm;color:#1e293b;font-size:12px;line-height:1.5">`;
+    html += `<div style="border-bottom:2.5px solid ${themeColor};padding-bottom:10px;margin-bottom:14px">`;
+    html += `<h1 style="font-size:22px;font-weight:700;color:${themeColor};margin-bottom:2px">${data.firstName||''} ${data.lastName||''}</h1>`;
+    if(data.title) html += `<p style="font-size:13px;color:#64748b;margin-bottom:4px">${data.title}</p>`;
+    html += `<p style="font-size:10px;color:#94a3b8">${[data.email,data.phone,data.location,data.website,data.linkedin].filter(Boolean).join(' · ')}</p></div>`;
+    if(data.summary) html += mkSection(t(lang,'summary'),`<p style="font-size:11px;color:#475569;line-height:1.5">${data.summary}</p>`);
+    if(data.experience?.length) html += mkSection(t(lang,'experience'),data.experience.map(mkExp).join(''));
+    if(data.education?.length) html += mkSection(t(lang,'education'),data.education.map(e=>`<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between"><div><span style="font-weight:600;font-size:12px">${e.degree||''}</span><span style="font-size:11px;color:#64748b"> · ${e.institution||''}</span></div><span style="font-size:10px;color:#94a3b8">${e.startDate||''} - ${e.endDate||''}</span></div>${e.description?`<p style="font-size:11px;color:#475569;margin-top:2px">${e.description}</p>`:''}</div>`).join(''));
+    if(data.skills?.length) html += mkSection(t(lang,'skills'),data.skills.map(mkSkill).join(''));
+    if(data.languages?.length) html += mkSection(t(lang,'languages'),`<div style="display:flex;flex-wrap:wrap;gap:4px 12px">${data.languages.map(l=>`<span style="font-size:11px">${l.name||''}${l.level?' - '+l.level:''}</span>`).join('')}</div>`);
+    if(data.certifications?.length) html += mkSection(t(lang,'certifications'),data.certifications.map(c=>`<p style="font-size:11px;margin-bottom:2px"><span style="font-weight:500">${c.name||''}</span>${c.issuer?' - '+c.issuer:''}${c.date?' ('+c.date+')':''}</p>`).join(''));
+    if(data.projects?.length) html += mkSection(t(lang,'projects'),data.projects.map(p=>`<div style="margin-bottom:4px"><span style="font-weight:500;font-size:11px">${p.name||''}</span>${p.description?'<span style="font-size:11px;color:#475569"> — '+p.description+'</span>':''}${p.url?'<br><span style="font-size:9px;color:#2563eb">'+p.url+'</span>':''}</div>`).join(''));
+    if(data.hobbies?.length) html += mkSection(t(lang,'interests'),`<p style="font-size:11px">${data.hobbies.map(h=>h.name||h).join(', ')}</p>`);
+    html += '</div>';
+
+    const w = window.open('','_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>CV</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>@page{size:A4;margin:0}*{margin:0;padding:0;box-sizing:border-box}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}</style></head><body>${html}</body></html>`);
+    w.document.close();
+    w.onload = () => w.print();
   };
 
   if (!cv) {
